@@ -1,37 +1,47 @@
-//var http = require('http');
 var express = require('express');
 var path = require('path');
 var request = require('request');
-//var fs= require('fs');
-var index = require('./routes/index');
+var bodyParser = require('body-parser');
 var app = express();
-app.locals.videodata = require('./data.json');
-var city = 'patna';  
-var apikey='712fa00f880ea898d336bbb7c0f8efb4';
-var url=`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apikey}`;
+const apikey='712fa00f880ea898d336bbb7c0f8efb4';
 
-/*
-function onRequest(req,res)
-{
-    res.writeHead(200,{"Context-Type":"text/html"});
-    res.write("hello");
-    res.end();
-}*/
-request(url,function(err,response,body){
+app.use(express.static('public'));
+app.get('/', function (req, res) {
+  res.render('index',{weather:'',error:''});
+});
+
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
+app.post('/',function(req,res){
+   let city = req.body.city;
+   /* console.log(req.body.city);*/
+    let url=`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apikey}`;
+    request(url,function(err,response,body){
    if(err)
        {
-           console.log("err:",err);
+            res.render('index',{weather:null,error:'Error please try agaian'});
        }
     else 
         {
-            console.log("body:",body);
             let weather = JSON.parse(body);
-            console.log("Temp is "+weather.main.temp+"degree C");
+            if(weather.main==undefined)
+            {
+            res.render('index',{weather: null,error:'Error please try agaian'});
+            }
+            else
+                {
+                   /* console.log(weather.main.temp);*/
+                    let weather_txt = weather.main.temp+" degree celsius in "+ city ;
+                    res.render('index',{weather: weather_txt, error:null }); 
+                }
         }
+});   
+  
 });
 
-app.use('/',index);
-//http.createServer(onRequest).listen(8080);
+  
 app.listen(8080);
 console.log("Server started at 8080");
 

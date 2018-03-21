@@ -1,12 +1,89 @@
 <html>
-  <head><title></title></head>
+  <head><title></title>
+    <style>
+        body {
+    background-color: #fefbd8;
+}
+input[type=text] {
+    width: 200px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+    background-image: url('searchicon.png');
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 40px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+input[type=text]:focus {
+    width: 100%;
+}
+        .button {
+    position: relative;
+    background-color: #4CAF50;
+    border: none;
+    font-size: 28px;
+    color: #FFFFFF;
+    padding: 20px;
+    width: 200px;
+    text-align: center;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+}
+       
+.button {
+  padding: 15px 25px;
+  font-size: 24px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+
+.button:hover {background-color: #3e8e41}
+
+.button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+        .h1{
+            font-family:  'Hoefler Text', Georgia, 'Times New Roman', serif;
+ font-weight: normal;
+        font-size: 1.75em;
+ letter-spacing: .2em;
+ line-height: 1.1em;
+ margin:0px;
+ text-align: center;
+ text-transform: uppercase;
+            color: #000;
+        }
+        
+</style></head>
   <body>
-    welcome <%= user%>;
-      <p><%= videodata.categoryName%></p>
-      <ul>
-          <%videodata.categories.forEach(function(item){%>
-          <li><%= item.categoryName%></li>  
-          <%});%>
-          <ul>
+      
+ <center>   <form action="/" method="post">
+      <input type="text" name="city" placeholder="Search City..">
+      <% if(weather!==null){ %>
+      <h1> <%= weather %> </h1>
+      <% } %>
+       <% if(error!==null){ %>
+      <h1>   <%= error %> </h1>
+      <% } %><br><br><br>
+      <input class="button" type="submit" value="SHOW">
+      </form>
+      </center>
+     
   </body>
 </html>
